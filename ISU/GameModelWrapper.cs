@@ -23,5 +23,17 @@ namespace ISU
         {
             _tianliModel.UpdateGame();
         }
+
+        public Ship PlayerShip
+        {
+            get
+            {
+                return _variables.PlayerShip;
+            }
+            set
+            {
+                _variables.PlayerShip = value;
+            }
+        }
     }
 }

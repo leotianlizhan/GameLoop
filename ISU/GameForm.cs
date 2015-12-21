@@ -13,11 +13,16 @@ namespace ISU
 {
     public partial class GameForm : Form
     {
+        Pen tempPen = new Pen(Color.Red, 3);
+        private delegate void InvalidateDel(Rectangle r);
+        private delegate void Del();
+        private float _playerShipDisplayX = 300;
+        private float _playerShipDisplayY = 300;
+
         /********** Game Loop *************/
         private const int FPS = 60;
         private const int FRAME_TIME = 1000 / 60;
         private Thread _gameThread;
-        private delegate void Del();
         /********** Game Loop *************/
 
         /********** Game Data *************/
@@ -44,7 +49,6 @@ namespace ISU
             int curTime;
             int prevTime = Environment.TickCount;
             int timeElapsed;
-            Del RefreshDelegate = new Del(Refresh);
 
             //infinity loop for the game until the game ends
             while (true)
@@ -56,22 +60,25 @@ namespace ISU
                 if (timeElapsed >= FRAME_TIME)
                 {
                     _game.UpdateGame();
-                    this.Invoke(RefreshDelegate);
                     prevTime = curTime;
                 }
+                RenderGame(timeElapsed);
             }
         }
 
-        private void RenderGame()
+        private void RenderGame(int elapsedTime)
         {
-
+            _playerShipDisplayX = _game.PlayerShip.X + (float)elapsedTime / (float)FRAME_TIME * _game.PlayerShip.XVelocity;
+            _playerShipDisplayY = _game.PlayerShip.Y + (float)elapsedTime / (float)FRAME_TIME * _game.PlayerShip.YVelocity;
+            this.Invoke(new InvalidateDel(Invalidate), new object[]{new Rectangle((int)_playerShipDisplayX, (int)_playerShipDisplayY, 50, 50)});
+            this.Invoke(new Del(Update));
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            RenderGame();
+            e.Graphics.DrawRectangle(tempPen, _playerShipDisplayX, _playerShipDisplayY, 50, 50);
         }
 
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
