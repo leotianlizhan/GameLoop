@@ -11,8 +11,9 @@ namespace ISU
     {
         private float _x;
         private float _y;
-        private float _xVelocity = -10;
-        private float _yVelocity = -10;
+        private float _velocityX = -10;
+        private float _velocityY = -10;
+        private float _accelY = 0;
 
         public Ship(float x, float y)
         {
@@ -43,26 +44,37 @@ namespace ISU
             }
         }
 
-        public float XVelocity
+        public float VelocityX
         {
             get
             {
-                return _xVelocity;
+                return _velocityX;
             }
             set
             {
-                _xVelocity = value;
+                _velocityX = value;
             }
         }
-        public float YVelocity
+        public float VelocityY
         {
             get
             {
-                return _yVelocity;
+                return _velocityY;
             }
             set
             {
-                _yVelocity = value;
+                _velocityY = value;
+            }
+        }
+        public float AccelY
+        {
+            get
+            {
+                return _accelY;
+            }
+            set
+            {
+                _accelY = value;
             }
         }
     }

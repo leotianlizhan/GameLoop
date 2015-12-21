@@ -14,7 +14,6 @@ namespace ISU
     public partial class GameForm : Form
     {
         Pen tempPen = new Pen(Color.Red, 3);
-        private delegate void NoParamDel();
         private float _playerShipDisplayX = 300;
         private float _playerShipDisplayY = 300;
 
@@ -34,6 +33,8 @@ namespace ISU
         public GameForm()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             _gameThread = new Thread(GameMain);
             _gameThread.IsBackground = true;
             _gameThread.Start();
@@ -69,9 +70,9 @@ namespace ISU
         private void RenderGame(int elapsedTime)
         {
             float interpolation = (float)elapsedTime / (float)TICK_TIME;
-            _playerShipDisplayX = _game.PlayerShip.X + interpolation * _game.PlayerShip.XVelocity;
-            _playerShipDisplayY = _game.PlayerShip.Y + interpolation * (_game.PlayerShip.YVelocity + interpolation * SharedVariables.ACCEL_G / 2);
-            this.Invoke(new NoParamDel(Refresh));
+            _playerShipDisplayX = _game.PlayerShip.X + interpolation * _game.PlayerShip.VelocityX;
+            _playerShipDisplayY = _game.PlayerShip.Y + interpolation * (_game.PlayerShip.VelocityY + interpolation * _game.PlayerShip.AccelY / 2);
+            this.Invoke(new Action(() => Refresh()));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -85,6 +86,14 @@ namespace ISU
         {
             _gameThread.Abort();
             Application.Exit();
+        }
+
+        private void GameForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.Close();
+            if (e.KeyCode == Keys.Space)
+                _game.PlayerShip.VelocityY = -20;
         }
     }
 }
