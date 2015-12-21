@@ -1,0 +1,13 @@
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\ISU.exe.config
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\ISU.exe
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\ISU.pdb
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\OpenTK.dll
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\OpenTK.pdb
+E:\App\MyProjects\C#\ISU\ISU\bin\Debug\OpenTK.xml
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.csprojResolveAssemblyReference.cache
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.Form1.resources
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.Properties.Resources.resources
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.csproj.GenerateResource.Cache
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.exe
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.pdb
+E:\App\MyProjects\C#\ISU\ISU\obj\Debug\ISU.GameForm.resources
