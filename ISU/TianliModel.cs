@@ -21,10 +21,13 @@ namespace ISU
         public void UpdateGame()
         {
             _variables.PlayerShip.X += _variables.PlayerShip.XVelocity;
-            _variables.PlayerShip.Y += _variables.PlayerShip.YVelocity;
+            _variables.PlayerShip.Y += _variables.PlayerShip.YVelocity + SharedVariables.ACCEL_G / 2;
+            _variables.PlayerShip.YVelocity += SharedVariables.ACCEL_G;
             if (_variables.PlayerShip.X <= 0 || _variables.PlayerShip.X + 70 >= 800)
                 _variables.PlayerShip.XVelocity *= -1;
-            if (_variables.PlayerShip.Y <= 0 || _variables.PlayerShip.Y + 90 >= 600)
+            if (_variables.PlayerShip.Y <= 0)
+                _variables.PlayerShip.YVelocity *= -1;
+            else if (_variables.PlayerShip.Y + 90 >= 600)
                 _variables.PlayerShip.YVelocity *= -1;
         }
     }

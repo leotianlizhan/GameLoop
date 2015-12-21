@@ -14,14 +14,13 @@ namespace ISU
     public partial class GameForm : Form
     {
         Pen tempPen = new Pen(Color.Red, 3);
-        private delegate void InvalidateDel(Rectangle r);
-        private delegate void Del();
+        private delegate void NoParamDel();
         private float _playerShipDisplayX = 300;
         private float _playerShipDisplayY = 300;
 
         /********** Game Loop *************/
-        private const int FPS = 60;
-        private const int FRAME_TIME = 1000 / 60;
+        private const int TICK_RATE = 20;
+        private const int TICK_TIME = 1000 / TICK_RATE;
         private Thread _gameThread;
         /********** Game Loop *************/
 
@@ -57,10 +56,11 @@ namespace ISU
                 curTime = Environment.TickCount;
                 timeElapsed = curTime - prevTime;
                 //check if the elapsed time is greater or equal to the time we need to update
-                if (timeElapsed >= FRAME_TIME)
+                if (timeElapsed >= TICK_TIME)
                 {
                     _game.UpdateGame();
                     prevTime = curTime;
+                    timeElapsed = 0;
                 }
                 RenderGame(timeElapsed);
             }
@@ -68,10 +68,10 @@ namespace ISU
 
         private void RenderGame(int elapsedTime)
         {
-            _playerShipDisplayX = _game.PlayerShip.X + (float)elapsedTime / (float)FRAME_TIME * _game.PlayerShip.XVelocity;
-            _playerShipDisplayY = _game.PlayerShip.Y + (float)elapsedTime / (float)FRAME_TIME * _game.PlayerShip.YVelocity;
-            this.Invoke(new InvalidateDel(Invalidate), new object[]{new Rectangle((int)_playerShipDisplayX, (int)_playerShipDisplayY, 50, 50)});
-            this.Invoke(new Del(Update));
+            float interpolation = (float)elapsedTime / (float)TICK_TIME;
+            _playerShipDisplayX = _game.PlayerShip.X + interpolation * _game.PlayerShip.XVelocity;
+            _playerShipDisplayY = _game.PlayerShip.Y + interpolation * (_game.PlayerShip.YVelocity + interpolation * SharedVariables.ACCEL_G / 2);
+            this.Invoke(new NoParamDel(Refresh));
         }
 
         protected override void OnPaint(PaintEventArgs e)
