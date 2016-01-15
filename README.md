@@ -1,8 +1,2 @@
 # ISU12
-ISU for grade 12 computer science. 
-
-Contributors:
-
-Tianli Zhan
-
-Andrew Pang
+Dropped idea for grade 12 ISU
